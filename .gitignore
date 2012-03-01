@@ -1,0 +1,5 @@
+*.js~
+*.js.kate-swp
+OpenGL.js
+node-ogl/
+nodejs/
