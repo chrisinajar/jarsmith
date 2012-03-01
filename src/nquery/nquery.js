@@ -22,5 +22,9 @@ var nQuery = function() {
   this.$ = this.jQuery;
 };
 
+nQuery.prototype.toString = function() {
+  return 'test';
+};
+
 
 module.exports = nQuery;

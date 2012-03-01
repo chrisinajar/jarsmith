@@ -1220,8 +1220,65 @@ jQuery.extend({
 	}
 });
 
+jQuery.support = {
+  // IE strips leading whitespace when .innerHTML is used
+  leadingWhitespace: true,
 
+  // Make sure that tbody elements aren't automatically inserted
+  // IE will insert them into empty tables
+  tbody: true,
 
+  // Make sure that link elements get serialized correctly by innerHTML
+  // This requires a wrapper element in IE
+  htmlSerialize: true,
+
+  // Get the style information from getAttribute
+  // (IE uses .cssText instead)
+  style: true,
+
+  // Make sure that URLs aren't manipulated
+  // (IE normalizes it by default)
+  hrefNormalized: true,
+
+  // Make sure that element opacity exists
+  // (IE uses filter instead)
+  // Use a regex to work around a WebKit issue. See #5145
+  opacity: true,
+
+  // Verify style float existence
+  // (IE uses styleFloat instead of cssFloat)
+  cssFloat: true,
+
+  // Make sure that if no value is specified for a checkbox
+  // that it defaults to "on".
+  // (WebKit defaults to "" instead)
+  checkOn: true,
+
+  // Make sure that a selected-by-default option has a working selected property.
+  // (WebKit defaults to false instead of true, IE too, if it's in an optgroup)
+  optSelected: true,
+
+  // Test setAttribute on camelCase class. If it works, we need attrFixes when doing get/setAttribute (ie6/7)
+  getSetAttribute: true,
+
+  // Tests for enctype support on a form(#6743)
+  enctype: true,
+
+  // Makes sure cloning an html5 element does not cause problems
+  // Where outerHTML is undefined, this still works
+  html5Clone: true,
+
+  // Will be defined later
+  submitBubbles: true,
+  changeBubbles: true,
+  focusinBubbles: false,
+  deleteExpando: true,
+  noCloneEvent: true,
+  inlineBlockNeedsLayout: false,
+  shrinkWrapBlocks: false,
+  reliableMarginRight: true
+  };
+/*
 
 jQuery.support = (function() {
 
@@ -1322,7 +1379,7 @@ jQuery.support = (function() {
 	support.noCloneChecked = input.cloneNode( true ).checked;
 
 	// Make sure that the options inside disabled selects aren't marked as disabled
-	// (WebKit marks them as disabled)
+	// (WebKit marks them as disabsupportled)
 	select.disabled = true;
 	support.optDisabled = !opt.disabled;
 
@@ -1509,7 +1566,7 @@ jQuery.support = (function() {
 	return support;
 })();
 
-
+*/
 
 
 var rbrace = /^(?:\{.*\}|\[.*\])$/,
