@@ -91,7 +91,6 @@ Engine.prototype.show = function() {
     console.log("Done");
     self.render();
     setInterval(function(){self.render.apply(self);},1000/self.frameLimit);
-  }, this);
 };
 
 Engine.prototype.render = function() {
