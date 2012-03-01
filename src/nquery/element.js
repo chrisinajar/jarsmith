@@ -7,8 +7,9 @@ var Element = function(id, parent) {
   this.id = id;
   this.parent = parent;
   this.nodeType = '?';
-  this.firstChild = this;
-  this.lastChild = this;
+  this.children = [];
+  this.firstChild = null;
+  this.lastChild = null;
   this.style = {};
 };
 

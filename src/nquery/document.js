@@ -14,6 +14,7 @@ util.inherits(Document, Element);
 
 //TODO Implement this
 Document.prototype.createElement = function(element) {
+  console.log('creating new element ' + element);
   return new Element();
 };
 

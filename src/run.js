@@ -29,3 +29,9 @@ var $ = (new nQuery()).$;
 $(function() {
   console.log('it worked');
 });
+
+$('<obj>', {
+  width: '10px',
+  height: '40px',
+  id: 'something',
+});
