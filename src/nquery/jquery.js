@@ -558,9 +558,8 @@ jQuery.extend({
 	},
 
 	// Convert dashed to camelCase; used by the css and data modules
-	// Microsoft forgot to hump their vendor prefix (#9572)
 	camelCase: function( string ) {
-		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
+		return string.replace( rdashAlpha, fcamelCase );
 	},
 
 	nodeName: function( elem, name ) {
@@ -839,17 +838,6 @@ jQuery.each("Boolean Number String Function Array Date RegExp Object".split(" ")
 	class2type[ "[object " + name + "]" ] = name.toLowerCase();
 });
 
-browserMatch = jQuery.uaMatch( userAgent );
-if ( browserMatch.browser ) {
-	jQuery.browser[ browserMatch.browser ] = true;
-	jQuery.browser.version = browserMatch.version;
-}
-
-// Deprecated, use jQuery.browser.webkit instead
-if ( jQuery.browser.webkit ) {
-	jQuery.browser.safari = true;
-}
-
 // IE doesn't match non-breaking spaces with \s
 if ( rnotwhite.test( "\xA0" ) ) {
 	trimLeft = /^[\s\xA0]+/;
@@ -858,42 +846,6 @@ if ( rnotwhite.test( "\xA0" ) ) {
 
 // All jQuery objects should point back to these
 rootjQuery = jQuery(document);
-
-// Cleanup functions for the document ready method
-if ( document.addEventListener ) {
-	DOMContentLoaded = function() {
-		document.removeEventListener( "DOMContentLoaded", DOMContentLoaded, false );
-		jQuery.ready();
-	};
-
-} else if ( document.attachEvent ) {
-	DOMContentLoaded = function() {
-		// Make sure body exists, at least, in case IE gets a little overzealous (ticket #5443).
-		if ( document.readyState === "complete" ) {
-			document.detachEvent( "onreadystatechange", DOMContentLoaded );
-			jQuery.ready();
-		}
-	};
-}
-
-// The DOM ready check for Internet Explorer
-function doScrollCheck() {
-	if ( jQuery.isReady ) {
-		return;
-	}
-
-	try {
-		// If IE is used, use the trick by Diego Perini
-		// http://javascript.nwbox.com/IEContentLoaded/
-		document.documentElement.doScroll("left");
-	} catch(e) {
-		setTimeout( doScrollCheck, 1 );
-		return;
-	}
-
-	// and execute any waiting functions
-	jQuery.ready();
-}
 
 return jQuery;
 
