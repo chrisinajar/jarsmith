@@ -28,9 +28,11 @@ Renderable.prototype.setColor = function(r,g,b,a) {
     a = 1.0;
   return this.colors = {r:r,g:g,b:b,a:a};
 };
+
 Renderable.prototype.colors = function() {
   return this.colors;
 };
+
 // position, top left corner of rect
 Renderable.prototype.x = function() { return this.x; };
 Renderable.prototype.y = function() { return this.y; };
