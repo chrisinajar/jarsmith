@@ -1,1 +1,4 @@
 check out the node-ogl project from my repo next to src, build ogl and then run "node ./run.js"
+
+Design Document: https://docs.google.com/document/d/1vYcyA8tAoE6r2ooThqxh_JgUJkFl0lvpQydh0jX6VWA/edit
+Technical Document: https://docs.google.com/document/d/1hMN6eAn4L_9Cdv45GCFi35vhiKh2ZA9FWuaY2Ws5wx0/edit
