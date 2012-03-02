@@ -30,6 +30,8 @@ $(function() {
   console.log('it worked');
 });
 
+console.log('res: ' + $('body').attr('id'));
+
 $('<obj>', {
   width: '10px',
   height: '40px',

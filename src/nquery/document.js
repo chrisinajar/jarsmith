@@ -7,7 +7,7 @@ var Document = (function() {
   // If this is not complete, then we must emit the "ready" event.
   this.readyState = "complete";
   this.documentElement = new Element();
-  this.body = new Element();
+  this.body = new Element('test123');
 });
 
 util.inherits(Document, Element);
@@ -33,3 +33,4 @@ Document.prototype.toString = function() {
 };
 
 module.exports = Document;
+
