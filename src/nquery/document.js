@@ -7,7 +7,7 @@ var Document = (function() {
   // If this is not complete, then we must emit the "ready" event.
   this.readyState = "complete";
   this.documentElement = new Element();
-  this.body = new Element('test123');
+  this.body = new Element();
 });
 
 util.inherits(Document, Element);

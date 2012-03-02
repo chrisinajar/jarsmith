@@ -2404,18 +2404,8 @@ jQuery.extend({
 		var ret, hooks, notxml,
 			nType = elem.nodeType;
 
-		// don't get/set attributes on text, comment and attribute nodes
-		if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
-			return;
-		}
-
 		if ( pass && name in jQuery.attrFn ) {
 			return jQuery( elem )[ name ]( value );
-		}
-
-		// Fallback to prop when attributes are not supported
-		if ( typeof elem.getAttribute === "undefined" ) {
-			return jQuery.prop( elem, name, value );
 		}
 
 		notxml = nType !== 1 || !jQuery.isXMLDoc( elem );

@@ -44,12 +44,15 @@ Engine.prototype.loadResources = function(r, c, d) {
     c++;
     console.log("Loading " + obj);
     
-    var tex = new Texture(gl);
-    tex.loadFile('./img/' + res[obj], function(tex, self) {
-      c--;
-      if (c == 0)
-	c(d);
-    }, this);
+    (function(name) {
+      var tex = new Texture(gl);
+      tex.loadFile('./img/' + name, function(tex, self) {
+	self.textures[name] = tex;
+	c--;
+	if (c == 0)
+	  c(d);
+      }, this);
+    }).apply(this, res[obj]);
   }
   c--;
   if (c == 0)
