@@ -8363,7 +8363,7 @@ jQuery.fx.prototype = {
 	// Get the current size
 	cur: function() {
 		if ( this.elem[ this.prop ] != null && (!this.elem.style || this.elem.style[ this.prop ] == null) ) {
-			return this.elem[ this.prop ];
+			return this.elem[ this.prop ]();
 		}
 
 		var parsed,
@@ -8440,6 +8440,7 @@ jQuery.fx.prototype = {
 			done = true,
 			elem = this.elem,
 			options = this.options;
+			
 
 		if ( gotoEnd || t >= options.duration + this.startTime ) {
 			this.now = this.end;
@@ -8455,14 +8456,6 @@ jQuery.fx.prototype = {
 			}
 
 			if ( done ) {
-				// Reset the overflow
-				if ( options.overflow != null && !jQuery.support.shrinkWrapBlocks ) {
-
-					jQuery.each( [ "", "X", "Y" ], function( index, value ) {
-						elem.style[ "overflow" + value ] = options.overflow[ index ];
-					});
-				}
-
 				// Hide the element if the "hide" operation was done
 				if ( options.hide ) {
 					jQuery( elem ).hide();
@@ -8554,7 +8547,11 @@ jQuery.extend( jQuery.fx, {
 			if ( fx.elem.style && fx.elem.style[ fx.prop ] != null ) {
 				fx.elem.style[ fx.prop ] = fx.now + fx.unit;
 			} else {
-				fx.elem[ fx.prop ] = fx.now;
+				var setter = 'set'+fx.prop.charAt(0).toUpperCase() + fx.prop.slice(1);
+				if (fx.elem[setter])
+				  fx.elem[setter](fx.now);
+				else
+				  fx.elem[ fx.prop ] = fx.now;
 			}
 		}
 	}
@@ -8562,9 +8559,9 @@ jQuery.extend( jQuery.fx, {
 
 // Adds width/height step functions
 // Do not set anything below 0
-jQuery.each([ "width", "height" ], function( i, prop ) {
+jQuery.each([ "Width", "Height" ], function( i, prop ) {
 	jQuery.fx.step[ prop ] = function( fx ) {
-		jQuery.style( fx.elem, prop, Math.max(0, fx.now) + fx.unit );
+		fx.elem['set'+prop](Math.max(0, fx.now));
 	};
 });
 

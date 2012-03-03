@@ -56,16 +56,15 @@ Painter.prototype.setTexture = function(tex, pos) {
     ];
   }
   if (this.texture && this.texture.texid == tex.texture) {
-    console.log("im already using that texture");
+//    console.log("im already using that texture");
     return;
   }
-  if (this.texture)
-    console.log("going from texture " + this.texture.texid + " to " + tex.texture);
+  //if (this.texture)
+//    console.log("going from texture " + this.texture.texid + " to " + tex.texture);
   this.texture = {
     pos: pos,
     texid: tex.texture,
     texfn: function() {
-      console.log('glBindTexture ' + tex.texture);
       gl.glBindTexture(gl.GL_TEXTURE_2D, tex.texture);
     },
   };
@@ -114,7 +113,6 @@ Painter.prototype.drawRect = function(x1,y1,x2,y2) {
   var gl = this.gl;
   this.groupRender(gl.GL_QUADS, function(s) {
     var gl = s.gl;
-    console.log('glTexCoord2f()');
     if (s.texture != null)
       gl.glTexCoord2f(s.texture.pos[0][0], s.texture.pos[0][1]);
     gl.glVertex2f(x1, y1, 0.0);

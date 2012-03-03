@@ -72,7 +72,7 @@ var VisibleElement = function(engine, parent) {
 util.inherits(VisibleElement, Element);
 
 VisibleElement.prototype.width = function() {
-  return this.renderable.width();
+  return this.renderable.width;
 };
 
 VisibleElement.prototype.setWidth = function(val) {
@@ -80,7 +80,7 @@ VisibleElement.prototype.setWidth = function(val) {
 };
 
 VisibleElement.prototype.height = function() {
-  return this.renderable.height();
+  return this.renderable.height;
 };
 
 VisibleElement.prototype.setHeight = function(val) {
@@ -95,19 +95,19 @@ VisibleElement.prototype.setTexture = function(val) {
   return this.renderable.setTexture(val);
 };
 
-VisibleElement.prototype.x = function() {
-  return this.renderable.x();
+VisibleElement.prototype.x = VisibleElement.prototype.left = function() {
+  return this.renderable.x;
 };
 
-VisibleElement.prototype.setX = function(val) {
+VisibleElement.prototype.setX = VisibleElement.prototype.setLeft = function(val) {
   return this.renderable.setX(val);
 };
 
-VisibleElement.prototype.y = function() {
-  return this.renderable.y();
+VisibleElement.prototype.y = VisibleElement.prototype.top = function() {
+  return this.renderable.y;
 };
 
-VisibleElement.prototype.setY = function(val) {
+VisibleElement.prototype.setY = VisibleElement.prototype.setTop = function(val) {
   return this.renderable.setY(val);
 };
 

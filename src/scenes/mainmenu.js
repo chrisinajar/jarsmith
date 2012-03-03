@@ -20,12 +20,15 @@ var MainMenu = function(engine) {
       texture: 'mainmenu',
     });
     $('<obj>',  {
-      width: 365,
-      height: 184,
-      top: 0,
-      left: 329.5,
+      width: 325,
+      height: 164,
+      top: 100,
+      left: 0,
       texture: 'logo',
-    });
+    }).delay(100)
+      .animate({left: 369.5}, 300, "swing")
+      .animate({left: 349.5}, 300, "swing")
+      .animate({left: 329.5, top: 90, width: 365, height: 184}, 100, "swing");
   }, this);
 
 };

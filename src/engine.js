@@ -27,7 +27,7 @@ var Engine = function(gl, width, height) {
   this.lastTick = 0;
   this.shown = false;
   this.frame = 0;
-  this.frameLimit = 20;
+  this.frameLimit = 40;
   this.renderable = [];
   this.textures = {};
 }
@@ -45,7 +45,7 @@ Engine.prototype.loadResources = function(r, callback, d) {
       continue;
     c++;
     
-    (function(key, name) {
+    var k = (function(key, name) {
       console.log("Loading " + key);
       var tex = new Texture(gl);
       tex.loadFile('./img/' + name, function(tex, self) {
@@ -55,7 +55,15 @@ Engine.prototype.loadResources = function(r, callback, d) {
 	if (c == 0)
 	  callback(d);
       }, this);
-    }).apply(this, [obj, res[obj]]);
+    });
+    
+    if (typeof res[obj] == "string") {
+      k.apply(this, [obj, res[obj]]);
+    } else {
+      c += res[obj].max-1;
+      for (var i = 1; i <= res[obj].max; ++i)
+	k.apply(this, [obj+i, res[obj].img.replace('#',i)]);
+    }
   }
   c--;
   if (c == 0)
@@ -102,7 +110,6 @@ Engine.prototype.show = function() {
 };
 
 Engine.prototype.render = function() {
-  console.log('== Frame ' + this.frame++ + ' ===');
   var now = time();
   for (var i=0,l=this.renderable.length;i<l;++i) {
     this.renderable[i].doRender(this.p);
