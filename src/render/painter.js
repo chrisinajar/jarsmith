@@ -6,6 +6,7 @@ var Painter = function(gl) {
   this.r = 1.0;
   this.g = 1.0;
   this.b = 1.0;
+  this.a = 1.0;
   this.x = 0;
   this.y = 0;
   this.xoffset = -0;
@@ -31,16 +32,21 @@ Painter.prototype.init = function() {
   this.isInit = true;
 };
 
-Painter.prototype.setColor = function(r,g,b) {
+Painter.prototype.setColor = function(r,g,b,a) {
   this.r = r;
   this.g = g;
   this.b = b;
+  this.a = a;
   if (this.lastType != null) {
-    gl.glColor3f(this.r,this.g,this.b);
+    if (!a)
+      gl.glColor3f(this.r,this.g,this.b);
+    else
+      gl.glColor4f(this.r,this.g,this.b,this.a);
   }
 };
 
 Painter.prototype.setTexture = function(tex, pos) {
+  var gl = this.gl;
   if (!pos) {
     pos = [
       [ 0, 1 ],
@@ -49,19 +55,31 @@ Painter.prototype.setTexture = function(tex, pos) {
       [ 0, 0 ],
     ];
   }
+  if (this.texture && this.texture.texid == tex.texture) {
+    console.log("im already using that texture");
+    return;
+  }
+  if (this.texture)
+    console.log("going from texture " + this.texture.texid + " to " + tex.texture);
   this.texture = {
     pos: pos,
-    tex: tex,
+    texid: tex.texture,
+    texfn: function() {
+      console.log('glBindTexture ' + tex.texture);
+      gl.glBindTexture(gl.GL_TEXTURE_2D, tex.texture);
+    },
   };
   if (this.lastType != null) {
-    gl.glBindTexture(gl.GL_TEXTURE_2D, tex.getTexture());
+      gl.glEnd();
+      this.lastType = null;
+      this.texture.texfn();
   }
 };
 
 Painter.prototype.removeTexture = function() {
+  var gl = this.gl;
   this.texture = null;
   gl.glLoadIdentity();
-  gl.glTranslatef(this.x+this.xoffset,this.y+this.yoffset,this.zoom);
 }
 
 Painter.prototype.move = function(x, y) {
@@ -70,7 +88,6 @@ Painter.prototype.move = function(x, y) {
   this.x = x;
   this.y = y;
   gl.glLoadIdentity();
-  gl.glTranslatef(this.x+this.xoffset,this.y+this.yoffset,this.zoom);
 }
 
 Painter.prototype.groupRender = function(t,f,d) {
@@ -81,11 +98,11 @@ Painter.prototype.groupRender = function(t,f,d) {
       gl.glEnd();
       gl.glLoadIdentity();
     }
+    if (this.texture)
+      this.texture.texfn();
     this.lastType = t;
     gl.glBegin(t);
   }
-  if (this.texture != null)
-    gl.glBindTexture(gl.GL_TEXTURE_2D, this.texture.tex.getTexture());
   //else
     gl.glColor3f(this.r,this.g,this.b);
   
@@ -97,6 +114,7 @@ Painter.prototype.drawRect = function(x1,y1,x2,y2) {
   var gl = this.gl;
   this.groupRender(gl.GL_QUADS, function(s) {
     var gl = s.gl;
+    console.log('glTexCoord2f()');
     if (s.texture != null)
       gl.glTexCoord2f(s.texture.pos[0][0], s.texture.pos[0][1]);
     gl.glVertex2f(x1, y1, 0.0);
@@ -133,6 +151,7 @@ Painter.prototype.draw = function() {
   gl.SwapBuffers();
   Painter.plock = null;
   this.isInit = false;
+  this.texture = null;
 };
 
 module.exports = Painter;

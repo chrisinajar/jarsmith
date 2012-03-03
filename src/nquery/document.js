@@ -1,31 +1,33 @@
 var util = require('util'),
     events = require('events'),
-    Element = require('./element');
+    element = require('./element');
 
-var Document = (function() {
-  Element.call(this);
+var Document = (function(nQuery) {
+  element.Element.call(this);
+  
+  this.engine = nQuery.engine;
   // If this is not complete, then we must emit the "ready" event.
   this.readyState = "complete";
-  this.documentElement = new Element();
-  this.body = new Element();
+  this.documentElement = new element.VisibleElement(this.engine);
+  this.body = new element.VisibleElement(this.engine);
 });
 
-util.inherits(Document, Element);
+util.inherits(Document, element.Element);
 
 //TODO Implement this
-Document.prototype.createElement = function(element) {
-  console.log('creating new element ' + element);
-  return new Element();
+Document.prototype.createElement = function(el) {
+  console.log('creating new element ' + el);
+  return new element.VisibleElement(this.engine);
 };
 
 //TODO Implement this
 Document.prototype.getElementById = function(id) {
-  return new Element();
+  return new element.VisibleElement(this.engine);
 };
 
 //TODO Implement this
 Document.prototype.createDocumentFragment = function(id) {
-  return new Element();
+  return new element.VisibleElement(this.engine);
 };
 
 Document.prototype.toString = function() {

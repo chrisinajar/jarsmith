@@ -7,7 +7,8 @@ var jQuery = require('./jquery.js'),
     Location = require('./location.js'),
     Window = require('./window.js');
 
-var nQuery = function() {
+var nQuery = function(engine) {
+  this.engine = engine;
   var document = new Document(this),
       navigator = new Navigator(this),
       location = new Location(this),

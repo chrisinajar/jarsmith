@@ -24,15 +24,7 @@ process.on('exit', function () {
   console.log('Whatever');
 });
 
-var $ = (new nQuery()).$;
 
-$(function() {
-  console.log('it worked');
-});
+var MainMenu = require('./scenes/mainmenu');
 
-console.log('res: ' + 
-  $('<obj>',  {
-    width: '10px',
-    height: '40px',
-    id: 'something',
-  }).attr('id'));
+var menu = new MainMenu(engine);

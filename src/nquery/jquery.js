@@ -97,6 +97,15 @@ var jQuery = function( selector, context ) {
 	class2type = {};
 //};
 
+
+
+
+
+
+
+
+
+
 jQuery.fn = jQuery.prototype = {
 	constructor: jQuery,
 	init: function( selector, context, rootjQuery ) {
@@ -8925,6 +8934,13 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 				var self = jQuery( this );
 				self[ type ]( size.call( this, i, self[ type ]() ) );
 			});
+		}
+		
+		if ('setTexture' in elem) {
+		  if (size == null)
+		    return elem[type]();
+		  else
+		    return elem['set'+name](size);
 		}
 
 		if ( jQuery.isWindow( elem ) ) {

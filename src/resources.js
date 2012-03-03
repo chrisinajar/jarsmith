@@ -2,6 +2,7 @@
 var resources = {
   menu: {
     logo: 'logo.bmp',
+    bg: 'background.bmp',
     mainmenu: 'mainmenu.bmp',
   },
 };

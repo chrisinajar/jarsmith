@@ -35,7 +35,6 @@ Texture.prototype.loadFile = function(file, c, d) {
       this.height += head[11] << (8*3);
       
       assert.equal(head.length, 40, "Wtf is this?");
-      console.log(head[14]/8);
       assert.equal(head[14], 32, "Wtf is this?");
       
       console.log('img is ' + this.width + 'x' + this.height);
@@ -47,10 +46,10 @@ Texture.prototype.loadFile = function(file, c, d) {
       // reverse all of the colors. (bgr -> rgb)
       for (var i=0,l=this.buffer.length;i<l;i+=4) {
 	var temp = [this.buffer[i+3], this.buffer[i], this.buffer[i+1], this.buffer[i+2]];
-	this.buffer[i] = temp[3];
-	this.buffer[i+1] = temp[2];
-	this.buffer[i+2] = temp[1];
-	this.buffer[i+3] = temp[0];
+	this.buffer[i] = temp[3];  //r
+	this.buffer[i+1] = temp[2];//g
+	this.buffer[i+2] = temp[1];//b
+	this.buffer[i+3] = temp[0];//a
 	//console.log(this.buffer[i] + ',' + this.buffer[i+1] + ',' + this.buffer[i+2]);
       }
       console.log("Bits reversed " + this.buffer.length);
@@ -62,11 +61,11 @@ Texture.prototype.loadFile = function(file, c, d) {
 
       gl.glTexImage2D(gl.GL_TEXTURE_2D,         // 2d texture
 		      0,                     // level of detail 0 (normal)
-		      4,                     // 4 components (red green blue alpha)
+		      gl.GL_RGBA,           // Isn't this just like below?
 		      this.width,           // x size from image
 		      this.height,          // y size from image
 		      0,                     // border 0 (normal)
-		      gl.GL_RGBA,             // rgb color data
+		      gl.GL_RGBA,             // rgba color data
 		      gl.GL_UNSIGNED_BYTE,   // unsigned byte data
 		      this.buffer);         // the actual data
       console.log(this.texture);

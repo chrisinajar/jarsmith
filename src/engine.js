@@ -1,6 +1,6 @@
 var Window = require('./render/window'),
     Painter = require('./render/painter'),
-    Texture = require('./render/texture').
+    Texture = require('./render/texture'),
     resources = require('./resources');
 
 
@@ -26,12 +26,14 @@ var Engine = function(gl, width, height) {
   this.y = 0;
   this.lastTick = 0;
   this.shown = false;
-  this.frameLimit = 3;
+  this.frame = 0;
+  this.frameLimit = 20;
   this.renderable = [];
   this.textures = {};
 }
 
-Engine.prototype.loadResources = function(r, c, d) {
+Engine.prototype.loadResources = function(r, callback, d) {
+  var gl = this.gl;
   var res = resources[r];
   var c = 1;
   
@@ -42,21 +44,22 @@ Engine.prototype.loadResources = function(r, c, d) {
     if (this.textures[r][res])
       continue;
     c++;
-    console.log("Loading " + obj);
     
-    (function(name) {
+    (function(key, name) {
+      console.log("Loading " + key);
       var tex = new Texture(gl);
       tex.loadFile('./img/' + name, function(tex, self) {
-	self.textures[name] = tex;
+	self.textures[key] = tex;
+	console.log("Finished " + key);
 	c--;
 	if (c == 0)
-	  c(d);
+	  callback(d);
       }, this);
-    }).apply(this, res[obj]);
+    }).apply(this, [obj, res[obj]]);
   }
   c--;
   if (c == 0)
-    c(d);
+    callback(d);
 };
 Engine.prototype.show = function() {
   if (this.shown)
@@ -80,6 +83,8 @@ Engine.prototype.show = function() {
     //gl.glClearDepth(1.0);
     //gl.glEnable(gl.GL_DEPTH_TEST);
     gl.glEnable(gl.GL_TEXTURE_2D);
+    gl.glEnable (gl.GL_BLEND);
+    gl.glBlendFunc (gl.GL_SRC_ALPHA, gl.GL_ONE_MINUS_SRC_ALPHA);
     //gl.glDepthFunc(gl.GL_LEQUAL);
     //gl.glViewport(0,0,width,height);
     //gl.glHint(gl.GL_PERSPECTIVE_CORRECTION_HINT, gl.GL_NICEST);
@@ -97,6 +102,7 @@ Engine.prototype.show = function() {
 };
 
 Engine.prototype.render = function() {
+  console.log('== Frame ' + this.frame++ + ' ===');
   var now = time();
   for (var i=0,l=this.renderable.length;i<l;++i) {
     this.renderable[i].doRender(this.p);
