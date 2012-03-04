@@ -5,6 +5,7 @@ var resources = {
     bg: 'background.bmp',
     mainmenu: 'mainmenu.bmp',
     selected: 'menu_selected.bmp',
+    guy: 'guy.bmp',
   },
 };
 

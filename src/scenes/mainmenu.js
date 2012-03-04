@@ -35,12 +35,31 @@ var MainMenu = function(engine, events) {
       width: 325,
       height: 164,
       top: 100,
-      left: 0,
+      left: -325,
       texture: 'logo',
-    }).delay(100)
+    }).delay(200)
       .animate({left: 369.5}, 300, "swing")
       .animate({left: 349.5}, 300, "swing")
       .animate({left: 329.5, top: 90, width: 365, height: 184}, 100, "swing");
+      
+    var guy = $('<obj>',  {
+      width: 32,
+      height: 48,
+      top: 768,
+      left: 416,
+      texture: 'guy',
+    });
+    var peek;
+    peek = (function() {
+      guy.attr({left:Math.random()*1000});
+      guy.animate({top: 738}, 200, "swing")
+	.delay(1000)
+	.animate({top: 768}, 200, "swing");
+
+      setTimeout(peek, (Math.random()*5000+5000));
+    });
+   
+    setTimeout(peek, (Math.random()*2000+2000));
   }, this);
 };
 
