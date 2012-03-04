@@ -1,25 +1,31 @@
 var resources = require('../resources'),
-    nQuery = require('../nquery/nquery'),
+    util = require('util'),
+    BaseMenu = require('./basemenu'),
     keyboard = require('../keyboard');
 
 var $;
 var MainMenu = function(engine, events) {
-  this.engine = engine;
-  $ = (new nQuery(engine)).$;
-  this.selected = null;
-  this.selectedIndex = 0;
-  this.menu = [
-    [370, 360],
-    [440, 360],
-    [640, 360],
-  ];
+  BaseMenu.apply(this, [engine, events]);
+  $ = this.$;
   engine.loadResources('menu', function(s) {
     var engine = s.engine;
-    $('<obj>',  {
-      width: 1024,
-      height: 768,
-      texture: 'bg',
+    
+    // Set up selectors
+    s.menu = [
+      [360, 370],
+      [360, 440],
+      [360, 640],
+    ];
+  
+    s.selected = $('<obj>',{
+      width: 300,
+      height: 120,
+      top: 370,
+      left: 360,
+      texture: 'selected',
     });
+    
+    // show menu
     $('<obj>',  {
       width: 191,
       height: 328,
@@ -37,61 +43,24 @@ var MainMenu = function(engine, events) {
       .animate({left: 369.5}, 300, "swing")
       .animate({left: 349.5}, 300, "swing")
       .animate({left: 329.5, top: 90, width: 365, height: 184}, 100, "swing");
-  
-    s.selected = $('<obj>',  {
-      width: 300,
-      height: 120,
-      top: 370,
-      left: 360,
-      texture: 'selected',
-    });
   }, this);
-  
-  var self = this;
-  events.on('KEYDOWN', function(evt){self.keydown.apply(self, [evt]);});
-  events.on('KEYUP', function(evt){self.keyup.apply(self, [evt]);});
 };
 
-MainMenu.prototype.keydown = function (evt) {
-  switch (evt.sym) {
-    case keyboard.up:
-      this.moveUp();
+util.inherits(MainMenu, BaseMenu);
+
+MainMenu.prototype.activated = function() {
+  switch (this.selectedIndex.y) {
+    case 0: //play
+      console.log("Derp derp");
       break;
-    case keyboard.down:
-      this.moveDown();
+    case 1: //options
+      console.log("Sorry. this does nothing");
+      break;
+    case 2: //exit
+      process.exit();
       break;
   }
-};
-
-MainMenu.prototype.keyup = function (evt) {
-  var ascii = evt.sym;
-  
-  if( ( ascii < 123 ) && ( ascii > 96 ) ) {
-    if( 0 != ( evt.mod && 0x2003 ) ) {
-      ascii -= 32;
-    }
-  }
-  
-  console.log('keyup');
-  console.log(ascii);
-};
-
-MainMenu.prototype.moveUp = function() {
-  if (!this.selected)
-    return;
-  if (this.selectedIndex == 0)
-    this.selectedIndex = this.menu.length;
-  this.selectedIndex--;
-  this.selected.stop().animate({top: this.menu[this.selectedIndex][0], left: this.menu[this.selectedIndex][1]}, 200);
-};
-
-MainMenu.prototype.moveDown = function() {
-  if (!this.selected)
-    return;
-  this.selectedIndex++;
-  if (this.selectedIndex == this.menu.length)
-    this.selectedIndex = 0;
-  this.selected.stop().animate({top: this.menu[this.selectedIndex][0], left: this.menu[this.selectedIndex][1]}, 200);
 };
 
 module.exports = MainMenu;
+
