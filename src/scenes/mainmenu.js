@@ -1,7 +1,5 @@
-var resources = require('../resources'),
-    util = require('util'),
-    BaseMenu = require('./basemenu'),
-    keyboard = require('../keyboard');
+var util = require('util'),
+    BaseMenu = require('./basemenu');
 
 var $;
 var MainMenu = function(engine, events) {
