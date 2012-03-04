@@ -1,6 +1,7 @@
 var assert = require('assert');
 
-var Painter = function(gl) {
+var Painter = function(gl, SDL) {
+  this.SDL = SDL;
   this.gl = gl;
   this.lastType = null;
   this.r = 1.0;
@@ -142,11 +143,12 @@ Painter.prototype.drawTriangle = function(x1,y1,x2,y2,x3,y3) {
 Painter.prototype.draw = function() {
   this.init();
   var gl = this.gl;
+  var SDL = this.SDL;
   if (this.lastType != null) {
     gl.glEnd();
     this.lastType = null;
   }
-  gl.SwapBuffers();
+  SDL.GL.swapBuffers();
   Painter.plock = null;
   this.isInit = false;
   this.texture = null;

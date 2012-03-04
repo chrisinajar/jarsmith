@@ -1,7 +1,8 @@
 var Window = require('./render/window'),
     Painter = require('./render/painter'),
     Texture = require('./render/texture'),
-    resources = require('./resources');
+    resources = require('./resources'),
+    SDL = require('../node-sdl/sdl');
 
 
 var time = function() {
@@ -18,7 +19,7 @@ setInterval(function() {
 
 var Engine = function(gl, width, height) {
   var self = this;
-  this.p = new Painter(gl);
+  this.p = new Painter(gl, SDL);
   this.width = width;
   this.height = height;
   this.gl = gl;
@@ -69,6 +70,10 @@ Engine.prototype.loadResources = function(r, callback, d) {
   if (c == 0)
     callback(d);
 };
+Engine.prototype.loadScene = function(name) {
+  var T = require('./scenes/'+name);
+  this.scene = new T(this, SDL.events);
+};
 Engine.prototype.show = function() {
   if (this.shown)
     return;
@@ -80,11 +85,17 @@ Engine.prototype.show = function() {
       height = this.height,
       self = this;
   
-  console.log("Initializing GL window");
-      
-  gl.OpenWindow(width,height,0,0,0,0,0,0,0);
+  console.log("Initializing SDL window");
+  SDL.init( SDL.INIT.VIDEO );
+  SDL.GL.setAttribute( SDL.GL.RED_SIZE, 5 );
+  SDL.GL.setAttribute( SDL.GL.GREEN_SIZE, 5 );
+  SDL.GL.setAttribute( SDL.GL.BLUE_SIZE, 5 );
+  SDL.GL.setAttribute( SDL.GL.DEPTH_SIZE, 24 );
+  SDL.GL.setAttribute( SDL.GL.DOUBLEBUFFER, 1 );
+  SDL.setVideoMode( width, height, 32, SDL.SURFACE.HWSURFACE | SDL.SURFACE.ASYNCBLIT | SDL.SURFACE.DOUBLEBUF | SDL.SURFACE.OPENGL );
 
-  
+  console.log("Initializing GL");
+  //gl.OpenWindow(width,height,0,0,0,0,0,0,0);
     
     gl.glShadeModel(gl.GL_SMOOTH);
     gl.glClearColor(0.0, 1.0, 0.0, 0.0);

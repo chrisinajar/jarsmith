@@ -12,6 +12,7 @@ var engine = new Engine(gl, width, height);
 
 setTimeout(function() {
   engine.show();
+  engine.loadScene('mainmenu');
 },0);
 
 rl = readline.createInterface(process.stdin, process.stdout);
@@ -23,8 +24,3 @@ rl.prompt();
 process.on('exit', function () {
   console.log('Whatever');
 });
-
-
-var MainMenu = require('./scenes/mainmenu');
-
-var menu = new MainMenu(engine);
