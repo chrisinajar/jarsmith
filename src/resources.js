@@ -4,10 +4,7 @@ var resources = {
     logo: 'logo.bmp',
     bg: 'background.bmp',
     mainmenu: 'mainmenu.bmp',
-    corner: {
-      img: 'corner#.bmp',
-      max: 13,
-    }
+    selected: 'menu_selected.bmp',
   },
 };
 
