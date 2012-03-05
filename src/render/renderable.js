@@ -8,11 +8,23 @@ var Renderable = function(engine) {
   this.y = 0;
   this.ready = true;
   this.tex = null;
+  this.shown = false;
   
   engine.renderable.push(this);
 };
+
+Renderable.prototype.show = function() {
+  this.shown = true;
+};
+
+Renderable.prototype.hide = function() {
+  this.shown = false;
+};
+
 // render yo self
 Renderable.prototype.doRender = function(painter) {
+  if (!this.shown)
+    return;
   if (this.width*this.height == 0)
     return;
   this.ready = false;

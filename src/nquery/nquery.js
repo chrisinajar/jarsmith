@@ -9,16 +9,16 @@ var jQuery = require('./jquery.js'),
 
 var nQuery = function(engine) {
   this.engine = engine;
-  var document = new Document(this),
-      navigator = new Navigator(this),
-      location = new Location(this),
-      window = new Window(this);
+  this.document = new Document(this);
+  this.navigator = new Navigator(this);
+  this.location = new Location(this);
+  this.window = new Window(this);
   
   this.jQuery = jQuery({
-    window: window,
-    document: document,
-    navigator: navigator,
-    location: location,
+    window: this.window,
+    document: this.document,
+    navigator: this.navigator,
+    location: this.location,
   });
   this.$ = this.jQuery;
 };

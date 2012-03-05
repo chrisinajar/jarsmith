@@ -21,26 +21,26 @@ var MainMenu = function(engine, events) {
       top: 370,
       left: 360,
       texture: 'selected',
-    });
+    }).appendTo($(s.body));
     
     // show menu
-    $('<obj>',  {
+    s.mainobj = $('<obj>',  {
       width: 191,
       height: 328,
       top: 400,
       left: 416,
       texture: 'mainmenu',
-    });
+    }).appendTo($(s.body));
     $('<obj>',  {
       width: 325,
       height: 164,
       top: 100,
       left: -325,
       texture: 'logo',
-    }).delay(200)
+    }).appendTo($(s.body)).delay(200)
       .animate({left: 369.5}, 300, "swing")
       .animate({left: 349.5}, 300, "swing")
-      .animate({left: 329.5, top: 90, width: 365, height: 184}, 100, "swing");
+      .animate({left: 309.5, top: 80, width: 400, height: 200}, 100, "swing");
       
     var guy = $('<obj>',  {
       width: 32,
@@ -60,23 +60,61 @@ var MainMenu = function(engine, events) {
     });
    
     setTimeout(peek, (Math.random()*2000+2000));
+    
+    s.activated.mainmenu = s.activated.fn = (function() {
+      switch (s.selectedIndex.y) {
+	case 0: //play
+	  s.engine.loadScene('game');
+	  break;
+	case 1: //options
+	  s.selectedIndex.y = 0;
+	  s.menu = [
+	    [360, 600],
+	  ];
+	  s.selected.animate({left: s.menu[0][0], top: s.menu[0][1]}, 200);
+	  s.mainobj.remove();
+	  this.mainobj = $('<obj>',  {
+	    width: 191,
+	    height: 328,
+	    top: 400,
+	    left: 416,
+	    texture: 'options',
+	  }).appendTo($(s.body));
+	  s.activated.fn = s.activated.options;
+	  break;
+	case 2: //exit
+	  process.exit();
+	  break;
+      }
+    });
+    s.activated.options = (function() {
+      switch (s.selectedIndex.y) {
+	case 0: //back
+	  s.menu = [
+	    [360, 370],
+	    [360, 440],
+	    [360, 640],
+	  ];
+	  s.selected.animate({left: s.menu[0][0], top: s.menu[0][1]}, 200);
+	  s.mainobj.remove();
+	  s.mainobj = $('<obj>',  {
+	    width: 191,
+	    height: 328,
+	    top: 400,
+	    left: 416,
+	    texture: 'mainmenu',
+	  }).appendTo($(s.body));
+	  s.activated.fn = s.activated.mainmenu;
+	  break;
+      }
+    });
   }, this);
 };
 
 util.inherits(MainMenu, BaseMenu);
 
 MainMenu.prototype.activated = function() {
-  switch (this.selectedIndex.y) {
-    case 0: //play
-      console.log("Derp derp");
-      break;
-    case 1: //options
-      console.log("Sorry. this does nothing");
-      break;
-    case 2: //exit
-      process.exit();
-      break;
-  }
+  return this.activated.fn.apply(this);
 };
 
 module.exports = MainMenu;

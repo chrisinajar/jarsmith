@@ -1,4 +1,5 @@
-var Window = require('./render/window'),
+var nQuery = require('./nquery/nquery'),
+    Window = require('./render/window'),
     Painter = require('./render/painter'),
     Texture = require('./render/texture'),
     resources = require('./resources'),
@@ -71,6 +72,14 @@ Engine.prototype.loadResources = function(r, callback, d) {
     callback(d);
 };
 Engine.prototype.loadScene = function(name) {
+  if (!this.nquery) { // initlialize nquery
+    this.nquery = (new nQuery(this));
+  }
+  if (this.scene) {
+    this.scene.body.renderable.hide();
+    this.nquery.$(this.scene.body).remove();
+    this.scene = null;
+  }
   var T = require('./scenes/'+name);
   this.scene = new T(this, SDL.events);
 };
@@ -125,6 +134,7 @@ Engine.prototype.render = function() {
   for (var i=0,l=this.renderable.length;i<l;++i) {
     this.renderable[i].doRender(this.p);
   }
+  this.p.init();
   this.p.draw();
   this.lastTick = time();
 };
@@ -134,7 +144,6 @@ Engine.prototype.height = function() { return this.height; };
 
 Engine.prototype.x = function() { return this.x; };
 Engine.prototype.y = function() { return this.y; };
-
 
 module.exports = {
   Engine: Engine,

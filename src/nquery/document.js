@@ -7,9 +7,9 @@ var Document = (function(nQuery) {
   
   this.engine = nQuery.engine;
   // If this is not complete, then we must emit the "ready" event.
-  this.readyState = "complete";
+  this.readyState = "waiting";
   this.documentElement = new element.VisibleElement(this.engine);
-  this.body = new element.VisibleElement(this.engine);
+  this.body = null;
 });
 
 util.inherits(Document, element.Element);
@@ -22,16 +22,12 @@ Document.prototype.createElement = function(el) {
 
 //TODO Implement this
 Document.prototype.getElementById = function(id) {
-  return new element.VisibleElement(this.engine);
+  return [];
 };
 
 //TODO Implement this
 Document.prototype.createDocumentFragment = function(id) {
   return new element.VisibleElement(this.engine);
-};
-
-Document.prototype.toString = function() {
-  return 'test';
 };
 
 module.exports = Document;

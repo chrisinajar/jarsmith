@@ -4,8 +4,12 @@ var resources = {
     logo: 'logo.bmp',
     bg: 'background.bmp',
     mainmenu: 'mainmenu.bmp',
+    options: 'options.bmp',
     selected: 'menu_selected.bmp',
     guy: 'guy.bmp',
+  },
+  game: {
+    gamebg: 'game_background.bmp',
   },
 };
 

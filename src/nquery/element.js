@@ -6,9 +6,9 @@ var util = require('util'),
 var Element = function(engine, parent) {
   events.EventEmitter.call(this);
   this.engine = engine;
-  this.parent = parent;
+  this.parentNode = parent;
   this.nodeType = '?';
-  this.children = [];
+  this.childNodes = [];
   this.firstChild = null;
   this.lastChild = null;
   this.style = {};
@@ -17,18 +17,14 @@ var Element = function(engine, parent) {
 
 util.inherits(Element, events.EventEmitter);
 
-Element.prototype.parentNode = function() {
-  return this.parent;
-};
-
 //TODO Implement this
 Element.prototype.getElementsByClassName = function(name) {
-  return [new Element()];
+  return [];
 };
 
 //TODO Implement this
 Element.prototype.getElementsByTagName = function(name) {
-  return [new Element()];
+  return [];
 };
 
 Element.prototype.setAttribute = function(name, value) {
@@ -47,11 +43,23 @@ Element.prototype.cloneNode = function() {
 
 //TODO Implement this
 Element.prototype.appendChild = function(element) {
-  return this;
+  this.childNodes.push(element);
+  this.firstChild = this.childNodes[0];
+  this.lastChild = this.childNodes[this.childNodes.length-1];
+  element.parentNode = this;
+  return element;
 };
 
 //TODO Implement this
 Element.prototype.removeChild = function(element) {
+  var index = this.childNodes.indexOf(element);
+  this.childNodes.splice(this.childNodes.indexOf(element), 1);
+  this.firstChild = this.childNodes[0];
+  this.lastChild = this.childNodes[this.childNodes.length-1];
+  while (element.childNodes.length > 0) {
+    element.removeChild(element.firstChild);
+  }
+    
   return this;
 };
 
@@ -70,6 +78,18 @@ var VisibleElement = function(engine, parent) {
 };
 
 util.inherits(VisibleElement, Element);
+
+VisibleElement.prototype.appendChild = function(element) {
+  Element.prototype.appendChild.apply(this, [element]);
+  element.renderable.show();
+  return element;
+};
+
+VisibleElement.prototype.removeChild = function(element) {
+  Element.prototype.removeChild.apply(this, [element]);
+  element.renderable.hide();
+  return element;
+};
 
 VisibleElement.prototype.width = function() {
   return this.renderable.width;
