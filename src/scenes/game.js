@@ -12,13 +12,33 @@ var Game = function(engine, events) {
 		
 		$(s.body).attr('texture', 'gamebg');
 		
-		s.guy = $('<obj>',  {
-			width: 32,
-			height: 48,
-			top: 768,
-			left: 416,
-			texture: 'guy',
-		});
+		var put = function() {
+			var an = function() {
+				$(this).animate({
+					top: this.getAttribute('top') + Math.random()*50-25,
+					left: this.getAttribute('left') + Math.random()*50-25
+				}, Math.random()*200+50, an);
+			};
+			var obj = $('<obj>',  {
+				width: 32,
+				height: 48,
+				left: Math.random()*1024,
+				top: Math.random()*768,
+				texture: 'guy',
+			});
+			obj.animate({
+					width: 48,
+					height: 72
+				}, 100,"swing",an)
+				.animate({
+					width: 32,
+					height: 48,
+					top: obj.attr('top') + Math.random()*400-200,
+					left: obj.attr('left') + Math.random()*400-200
+				}, 1000)
+				.appendTo($('body'));
+		};
+		setInterval(put, 0);
 	}, this);
 
 };

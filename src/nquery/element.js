@@ -188,7 +188,6 @@ VisibleElement.prototype.setY = VisibleElement.prototype.setTop = function(val) 
 };
 
 VisibleElement.prototype.setAttribute = function(name, value) {
-  console.log('setting '+name);
   var specialCases = {
     width: this.setWidth,
     height: this.setHeight,
@@ -201,7 +200,6 @@ VisibleElement.prototype.setAttribute = function(name, value) {
 };
 
 VisibleElement.prototype.getAttribute = function(name) {
-  console.log('getting '+name);
   var specialCases = {
     width: this.width,
     height: this.height,
