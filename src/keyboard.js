@@ -6,6 +6,7 @@ var keyboard = {
   left: 276,
   right: 275,
   enter: 13,
+  esc: 27,
 };
 
 module.exports = keyboard;

@@ -1,4 +1,4 @@
-
+var keyboard = require('../keyboard');
 
 var Scene = function(engine, events) {
   this.engine = engine;
@@ -16,8 +16,14 @@ var Scene = function(engine, events) {
     height: 768,
     texture: 'bg',
   })[0]);
+  this.nquery.document.parentNode = this.body; // I did this just to confuse you.
   this.nquery.document.emit('ready');
   // show the object manually...
+  
+  events.on('KEYDOWN', function(evt) {
+    if (evt.sym == keyboard.esc)
+      process.exit(0);
+  });
   this.body.renderable.show();
 };
 

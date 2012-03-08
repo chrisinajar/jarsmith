@@ -117,7 +117,7 @@ jQuery.fn = jQuery.prototype = {
 		}
 
 		// Handle $(DOMElement)
-		if ( selector.nodeType ) {
+		if ( selector.setAttribute ) {
 			this.context = this[0] = selector;
 			this.length = 1;
 			return this;
@@ -5486,12 +5486,20 @@ jQuery.fn.extend({
 		}).end();
 	},
 
-	append: function() {
-		return this.domManip(arguments, true, function( elem ) {
-			if ( this.nodeType === 1 ) {
-				this.appendChild( elem );
-			}
-		});
+	append: function(elem) {
+		console.log(":"+this[0]);
+		console.log(":"+elem.appendChild);
+		if (elem instanceof Array) {
+			var self = this;
+			jQuery.fn.each.apply(elem, [(function(i) {
+				self.append(this);
+			})]);
+			return this;
+		}
+		(function(self, elem) {
+			self.appendChild( elem );
+		})(this[0], elem);
+		return this;
 	},
 
 	prepend: function() {
@@ -5529,16 +5537,8 @@ jQuery.fn.extend({
 	// keepData is for internal use only--do not document
 	remove: function( selector, keepData ) {
 		for ( var i = 0, elem; (elem = this[i]) != null; i++ ) {
-			if ( !selector || jQuery.filter( selector, [ elem ] ).length ) {
-				if ( !keepData && elem.nodeType === 1 ) {
-					jQuery.cleanData( elem.getElementsByTagName("*") );
-					jQuery.cleanData( [ elem ] );
-				}
-
-				if ( elem.parentNode ) {
-					elem.parentNode.removeChild( elem );
-				}
-			}
+			// nQuery. Sorry 'bout your bad luck.
+			elem.remove();
 		}
 
 		return this;

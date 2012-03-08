@@ -75,9 +75,11 @@ Engine.prototype.loadScene = function(name) {
   if (!this.nquery) { // initlialize nquery
     this.nquery = (new nQuery(this));
   }
+  var $ = this.nquery.$;
   if (this.scene) {
+    console.log("Cleaning up old scene");
     this.scene.body.renderable.hide();
-    this.nquery.$(this.scene.body).remove();
+    this.nquery.$('body').remove();
     this.scene = null;
   }
   var T = require('./scenes/'+name);
