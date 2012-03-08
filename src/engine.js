@@ -133,13 +133,14 @@ Engine.prototype.show = function() {
 };
 
 Engine.prototype.render = function() {
-  var now = time();
-  for (var i=0,l=this.renderable.length;i<l;++i) {
-    this.renderable[i].doRender(this.p);
-  }
-  this.p.init();
-  this.p.draw();
-  this.lastTick = time();
+	var now = time();
+	
+	// gl stuff has to be synchronous
+	this.p.init();
+	if (this.scene)
+		this.scene.body.render(this.p);
+	this.p.draw();
+	this.lastTick = time();
 };
 
 Engine.prototype.width = function() { return this.width; };

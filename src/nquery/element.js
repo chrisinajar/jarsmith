@@ -114,6 +114,17 @@ var VisibleElement = function(engine, parent) {
 
 util.inherits(VisibleElement, Element);
 
+VisibleElement.prototype.render = function(p) {
+	if (this.renderable) {
+		this.renderable.show();
+		this.renderable.doRender(p);
+	}
+	for (var i=0,l=this.childNodes.length; i<l; ++i) {
+		this.childNodes[i].render(p);
+	}
+	return this;
+};
+
 VisibleElement.prototype.appendChild = function(element) {
 	Element.prototype.appendChild.apply(this, [element]);
 	element.renderable.show();
