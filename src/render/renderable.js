@@ -9,8 +9,6 @@ var Renderable = function(engine) {
   this.ready = true;
   this.tex = null;
   this.shown = false;
-  
-  engine.renderable.push(this);
 };
 
 Renderable.prototype.show = function() {

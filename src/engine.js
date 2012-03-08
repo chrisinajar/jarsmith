@@ -31,7 +31,6 @@ var Engine = function(width, height) {
   this.shown = false;
   this.frame = 0;
   this.frameLimit = 40;
-  this.renderable = [];
   this.textures = {};
 }
 
@@ -79,8 +78,7 @@ Engine.prototype.loadScene = function(name) {
   var $ = this.nquery.$;
   if (this.scene) {
     console.log("Cleaning up old scene");
-    this.scene.body.renderable.hide();
-    this.nquery.$('body').remove();
+    this.scene.body.remove();
     this.scene = null;
   }
   var T = require('./scenes/'+name);
