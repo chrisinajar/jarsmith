@@ -3,7 +3,8 @@ var nQuery = require('./nquery/nquery'),
     Painter = require('./render/painter'),
     Texture = require('./render/texture'),
     resources = require('./resources'),
-    SDL = require('../node-sdl/sdl');
+    SDL = require('../node-sdl/sdl'),
+    gl = require('../node-ogl/lib/OpenGL');
 
 
 var time = function() {
@@ -18,7 +19,7 @@ setInterval(function() {
 }, 500);
 
 
-var Engine = function(gl, width, height) {
+var Engine = function(width, height) {
   var self = this;
   this.p = new Painter(gl, SDL);
   this.width = width;
@@ -147,6 +148,4 @@ Engine.prototype.height = function() { return this.height; };
 Engine.prototype.x = function() { return this.x; };
 Engine.prototype.y = function() { return this.y; };
 
-module.exports = {
-  Engine: Engine,
-};
+module.exports = Engine;
