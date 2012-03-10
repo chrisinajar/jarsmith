@@ -2398,7 +2398,7 @@ jQuery.extend({
 		}
 	},
 
-	attrFn: {
+	attrFn: {/*
 		val: true,
 		css: true,
 		html: true,
@@ -2406,7 +2406,7 @@ jQuery.extend({
 		data: true,
 		width: true,
 		height: true,
-		offset: true
+		offset: true*/
 	},
 
 	attr: function( elem, name, value, pass ) {
@@ -2427,6 +2427,7 @@ jQuery.extend({
 		}
 
 		if ( value !== undefined ) {
+			console.log('setting');
 
 			if ( value === null ) {
 				jQuery.removeAttr( elem, name );
@@ -5487,8 +5488,6 @@ jQuery.fn.extend({
 	},
 
 	append: function(elem) {
-		console.log(":"+this[0]);
-		console.log(":"+elem.appendChild);
 		if (elem instanceof Array) {
 			var self = this;
 			jQuery.fn.each.apply(elem, [(function(i) {
@@ -6203,18 +6202,6 @@ jQuery.extend({
 	// Add in style property hooks for overriding the default
 	// behavior of getting and setting a style property
 	cssHooks: {
-		opacity: {
-			get: function( elem, computed ) {
-				if ( computed ) {
-					// We should always get a number back from opacity
-					var ret = curCSS( elem, "opacity", "opacity" );
-					return ret === "" ? "1" : ret;
-
-				} else {
-					return elem.style.opacity;
-				}
-			}
-		}
 	},
 
 	// Exclude the following css properties to add px
@@ -6267,7 +6254,7 @@ jQuery.extend({
 
 			// If a number was passed in, add 'px' to the (except for certain CSS properties)
 			if ( type === "number" && !jQuery.cssNumber[ origName ] ) {
-				value += "px";
+				//value += "px"; // we don't use px in these parts
 			}
 
 			// If a hook was provided, use that value, otherwise just set the specified value
@@ -8335,6 +8322,9 @@ jQuery.extend({
 		},
 		swing: function( p, n, firstNum, diff ) {
 			return ( ( -Math.cos( p*Math.PI ) / 2 ) + 0.5 ) * diff + firstNum;
+		},
+		swingbounce: function( p, n, firstNum, diff ) {
+			return ( ( -Math.cos( p*Math.PI ) / 2 ) + 0.5 ) * diff + firstNum;
 		}
 	},
 
@@ -8362,7 +8352,7 @@ jQuery.fx.prototype = {
 
 	// Get the current size
 	cur: function() {
-		if ( this.elem[ this.prop ] != null && (!this.elem.style || this.elem.style[ this.prop ] == null) ) {
+		if ( this.elem[ this.prop ] != null ) {
 			return this.elem[ this.prop ]();
 		}
 
@@ -8539,18 +8529,14 @@ jQuery.extend( jQuery.fx, {
 	},
 
 	step: {
-		opacity: function( fx ) {
-			jQuery.style( fx.elem, "opacity", fx.now );
-		},
-
 		_default: function( fx ) {
 			if ( fx.elem.style && fx.elem.style[ fx.prop ] != null ) {
 				fx.elem.style[ fx.prop ] = fx.now + fx.unit;
 			} else {
 				var setter = 'set'+fx.prop.charAt(0).toUpperCase() + fx.prop.slice(1);
-				if (fx.elem[setter])
+				if (fx.elem[setter]) {
 				  fx.elem[setter](fx.now);
-				else
+				} else
 				  fx.elem[ fx.prop ] = fx.now;
 			}
 		}

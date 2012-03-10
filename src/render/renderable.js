@@ -1,14 +1,16 @@
 var util = require('util');
 
 var Renderable = function(engine) {
-  this.engine = engine;
-  this.width = 0;
-  this.height = 0;
-  this.x = 0;
-  this.y = 0;
-  this.ready = true;
-  this.tex = null;
-  this.shown = false;
+	this.engine = engine;
+	this.attr = {
+		width: 0,
+		height: 0,
+		x: 0,
+		y: 0,
+		texture: '',
+	};
+	this.ready = true;
+	this.shown = false;
 };
 
 Renderable.prototype.show = function() {
@@ -19,11 +21,19 @@ Renderable.prototype.hide = function() {
   this.shown = false;
 };
 
+Renderable.prototype.opacity = function() {
+	
+};
+
+Renderable.prototype.setOpacity = function(val) {
+	
+};
+
 // render yo self
 Renderable.prototype.doRender = function(painter) {
   if (!this.shown)
     return;
-  if (this.width*this.height == 0)
+  if (this.attr.width*this.attr.height == 0)
     return;
   this.ready = false;
   this.render(painter, function(s) {
@@ -32,34 +42,43 @@ Renderable.prototype.doRender = function(painter) {
 };
 Renderable.prototype.render = function(painter, c, d) {
   //painter.setColor(1.0,0.8,0.5);
-  if (this.tex && this.engine.textures[this.tex])
-    painter.setTexture(this.engine.textures[this.tex], false);
+  if (this.attr.color && this.engine.textures[this.attr.texture])
+    painter.setColor();
+  if (this.attr.texture && this.engine.textures[this.attr.texture])
+    painter.setTexture(this.engine.textures[this.attr.texture], false);
   
-  painter.drawRect(this.x, this.y, this.x + this.width, this.y + this.height);
+  painter.drawRect(this.attr.x, this.attr.y, this.attr.x + this.attr.width, this.attr.y + this.attr.height);
   c(d);
 };
-Renderable.prototype.texture = function() { return this.tex; };
-Renderable.prototype.setTexture = function(tex) { return this.tex = tex; };
-// rect area that you render over
-Renderable.prototype.width = function() { return this.width; };
-Renderable.prototype.height = function() { return this.height; };
-Renderable.prototype.setWidth = function(val) { return this.width = parseFloat(val); };
-Renderable.prototype.setHeight = function(val) { return this.height = parseFloat(val); };
-// colors and textures
-Renderable.prototype.setColor = function(r,g,b,a) {
-  if (!r || !g || !b)
-    return this.colors = null;
-  if (!a)
-    a = 1.0;
-  return this.colors = {r:r,g:g,b:b,a:a};
-};
-Renderable.prototype.colors = function() { return this.colors; };
+// Generate getters and setters
+(function(){
+	var ar = [
+		'Width',
+		'Height',
+		'Texture',
+		'Color',
+		'X',
+		'Y',
+ 	];
+	var casts = {
+		'number': parseFloat,
+		'string': function toString(v){return v.toString()},
+	};
+	for (var i = 0; i < ar.length; ++i) {
+		var cast = function(val){return val;},
+		    v = {width: 0,height: 0,x: 0,y: 0,texture: '',color:{}}[ar[i].toLowerCase()];
+		if ((typeof v) in casts)
+			cast = casts[(typeof v)];
 
-// position, top left corner of rect
-Renderable.prototype.x = function() { return this.x; };
-Renderable.prototype.y = function() { return this.y; };
-
-Renderable.prototype.setX = function(x) { return this.x = parseFloat(x); };
-Renderable.prototype.setY = function(y) { return this.y = parseFloat(y); };
+		(function(name, type, cast) {
+			Renderable.prototype[type] = (function() { 
+				return this.attr[type];
+			});
+			Renderable.prototype['set'+name] = (function(val) { 
+				return this.attr[type] = cast(val);
+			});
+		})(ar[i], ar[i].toLowerCase(), cast);
+	}
+})();
 
 module.exports = Renderable;

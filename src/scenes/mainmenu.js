@@ -3,11 +3,24 @@ var util = require('util'),
 
 var $;
 var MainMenu = function(engine, events) {
-  BaseMenu.apply(this, [engine, events]);
-  $ = this.$;
-  engine.loadResources('menu', function(s) {
+	BaseMenu.apply(this, [engine, events]);
+	$ = this.$;
+    engine.loadResources('splash');
+	
+	var splash = $('<obj>',{
+		width: 1024,
+		height: 768,
+		top: 0,
+		left: 0,
+		texture: 'splash',
+	}).appendTo($(this.body));
+
+	engine.loadResources('menu', function(s) {
     var engine = s.engine;
-    
+	
+	setTimeout(function() {
+	splash.animate({opacity: 0}, 100, "swing", function(){
+	splash.remove();
     // Set up selectors
     s.menu = [
       [360, 370],
@@ -108,6 +121,8 @@ var MainMenu = function(engine, events) {
 	  break;
       }
     });
+	});
+	}, 200);
   }, this);
 };
 

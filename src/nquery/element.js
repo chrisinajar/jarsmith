@@ -143,49 +143,44 @@ VisibleElement.prototype.remove = function() {
 	return this;
 };
 
-VisibleElement.prototype.width = function() {
-  return this.renderable.width;
-};
-
-VisibleElement.prototype.setWidth = function(val) {
-  return this.renderable.setWidth(val);
-};
-
-VisibleElement.prototype.height = function() {
-  return this.renderable.height;
-};
-
-VisibleElement.prototype.setHeight = function(val) {
-  return this.renderable.setHeight(val);
-};
-
-VisibleElement.prototype.texture = function() {
-  return this.renderable.texture();
-};
-
-VisibleElement.prototype.setTexture = function(val) {
-  return this.renderable.setTexture(val);
-};
-
-VisibleElement.prototype.toString = function(val) {
-	return ""+this.renderable.texture();
-};
-
-VisibleElement.prototype.x = VisibleElement.prototype.left = function() {
-  return this.renderable.x;
-};
-
-VisibleElement.prototype.setX = VisibleElement.prototype.setLeft = function(val) {
-  return this.renderable.setX(val);
-};
-
-VisibleElement.prototype.y = VisibleElement.prototype.top = function() {
-  return this.renderable.y;
-};
-
-VisibleElement.prototype.setY = VisibleElement.prototype.setTop = function(val) {
-  return this.renderable.setY(val);
-};
+// Generate getters and setters
+(function(){
+	var ar = [
+		'Width',
+		'Height',
+		'Texture',
+		'Color',
+		'X',
+		'Y',
+ 	];
+	for (var i = 0; i < ar.length; ++i) {
+		(function(setter, type) {
+			VisibleElement.prototype[type] = (function() { 
+				return this.renderable[type].apply(this.renderable);
+			});
+			VisibleElement.prototype[setter] = (function(val) {
+				return this.renderable[setter].apply(this.renderable, [val]);
+			});
+		})('set'+ar[i], ar[i].toLowerCase());
+	}
+})();
+// Generate alias attributes
+(function(){
+	var ar = {
+		Left: 'X',
+		Top: 'Y',
+	};
+	for (var i in ar) {
+		(function(setterOrig, getterOrig, setterA, getterA) {
+			VisibleElement.prototype[getterA] = (function() {
+				return this[getterOrig]();
+			});
+			VisibleElement.prototype[setterA] = (function(val) {
+				return this[setterOrig](val);
+			});
+		})('set'+ar[i], ar[i].toLowerCase(), 'set'+i, i.toLowerCase());
+	}
+})();
 
 VisibleElement.prototype.setAttribute = function(name, value) {
   var specialCases = {
@@ -195,6 +190,7 @@ VisibleElement.prototype.setAttribute = function(name, value) {
     left: this.setX,
     top: this.setY,
   };
+  console.log('E setting ' + name + ' to ' + value);
   if (name in specialCases) return specialCases[name].apply(this, [value]);
   return this.attributes[name] = value;
 };
