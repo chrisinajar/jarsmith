@@ -8,6 +8,12 @@ var Renderable = function(engine) {
 		x: 0,
 		y: 0,
 		texture: '',
+		color: {
+			r: 1.0,
+			g: 1.0,
+			b: 1.0,
+			a: 1.0,
+		},
 	};
 	this.ready = true;
 	this.shown = false;
@@ -22,11 +28,11 @@ Renderable.prototype.hide = function() {
 };
 
 Renderable.prototype.opacity = function() {
-	
+	return (this.attr.color.a ? this.attr.color.a : 1.0);
 };
 
 Renderable.prototype.setOpacity = function(val) {
-	
+	return this.attr.color.a = parseFloat(val);
 };
 
 // render yo self
@@ -42,8 +48,10 @@ Renderable.prototype.doRender = function(painter) {
 };
 Renderable.prototype.render = function(painter, c, d) {
   //painter.setColor(1.0,0.8,0.5);
-  if (this.attr.color && this.engine.textures[this.attr.texture])
-    painter.setColor();
+  if (this.attr.color && this.engine.textures[this.attr.texture]) {
+		var color = this.attr.color;
+		painter.setColor(color.r, color.g, color.b, color.a);
+  }
   if (this.attr.texture && this.engine.textures[this.attr.texture])
     painter.setTexture(this.engine.textures[this.attr.texture], false);
   

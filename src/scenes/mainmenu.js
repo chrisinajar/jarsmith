@@ -19,7 +19,8 @@ var MainMenu = function(engine, events) {
     var engine = s.engine;
 	
 	setTimeout(function() {
-	splash.animate({opacity: 0}, 100, "swing", function(){
+		console.log('animate');
+	splash.animate({opacity: 0.0}, 500, "swing", function(){
 	splash.remove();
     // Set up selectors
     s.menu = [

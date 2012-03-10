@@ -2427,8 +2427,6 @@ jQuery.extend({
 		}
 
 		if ( value !== undefined ) {
-			console.log('setting');
-
 			if ( value === null ) {
 				jQuery.removeAttr( elem, name );
 				return;
@@ -2442,6 +2440,7 @@ jQuery.extend({
 			}
 
 		} else if ( hooks && "get" in hooks && notxml && (ret = hooks.get( elem, name )) !== null ) {
+			console.log('YEAH, GOOD HOOKED ' + name);
 			return ret;
 
 		} else {
@@ -6186,6 +6185,7 @@ var ralpha = /alpha\([^)]*\)/i,
 	currentStyle;
 
 jQuery.fn.css = function( name, value ) {
+	
 	// Setting 'undefined' is a no-op
 	if ( arguments.length === 2 && value === undefined ) {
 		return this;
@@ -6355,47 +6355,6 @@ jQuery.each(["height", "width"], function( i, name ) {
 		}
 	};
 });
-
-if ( !jQuery.support.opacity ) {
-	jQuery.cssHooks.opacity = {
-		get: function( elem, computed ) {
-			// IE uses filters for opacity
-			return ropacity.test( (computed && elem.currentStyle ? elem.currentStyle.filter : elem.style.filter) || "" ) ?
-				( parseFloat( RegExp.$1 ) / 100 ) + "" :
-				computed ? "1" : "";
-		},
-
-		set: function( elem, value ) {
-			var style = elem.style,
-				currentStyle = elem.currentStyle,
-				opacity = jQuery.isNumeric( value ) ? "alpha(opacity=" + value * 100 + ")" : "",
-				filter = currentStyle && currentStyle.filter || style.filter || "";
-
-			// IE has trouble with opacity if it does not have layout
-			// Force it by setting the zoom level
-			style.zoom = 1;
-
-			// if setting opacity to 1, and no other filters exist - attempt to remove filter attribute #6652
-			if ( value >= 1 && jQuery.trim( filter.replace( ralpha, "" ) ) === "" ) {
-
-				// Setting style.filter to null, "" & " " still leave "filter:" in the cssText
-				// if "filter:" is present at all, clearType is disabled, we want to avoid this
-				// style.removeAttribute is IE Only, but so apparently is this code path...
-				style.removeAttribute( "filter" );
-
-				// if there there is no filter style applied in a css rule, we are done
-				if ( currentStyle && !currentStyle.filter ) {
-					return;
-				}
-			}
-
-			// otherwise, set new filter values
-			style.filter = ralpha.test( filter ) ?
-				filter.replace( ralpha, opacity ) :
-				filter + " " + opacity;
-		}
-	};
-}
 
 jQuery(function() {
 	// This hook cannot be added until DOM ready because the support test
@@ -7937,12 +7896,6 @@ var elemdisplay = {},
 	rfxnum = /^([+\-]=)?([\d+.\-]+)([a-z%]*)$/i,
 	timerId,
 	fxAttrs = [
-		// height animations
-		[ "height", "marginTop", "marginBottom", "paddingTop", "paddingBottom" ],
-		// width animations
-		[ "width", "marginLeft", "marginRight", "paddingLeft", "paddingRight" ],
-		// opacity animations
-		[ "opacity" ]
 	],
 	fxNow;
 
@@ -8371,7 +8324,7 @@ jQuery.fx.prototype = {
 
 		this.startTime = fxNow || createFxNow();
 		this.end = to;
-		this.now = this.start = from;
+		this.now = this.start = from = this.cur();
 		this.pos = this.state = 0;
 		this.unit = unit || this.unit || ( jQuery.cssNumber[ this.prop ] ? "" : "px" );
 
@@ -8530,15 +8483,11 @@ jQuery.extend( jQuery.fx, {
 
 	step: {
 		_default: function( fx ) {
-			if ( fx.elem.style && fx.elem.style[ fx.prop ] != null ) {
-				fx.elem.style[ fx.prop ] = fx.now + fx.unit;
-			} else {
-				var setter = 'set'+fx.prop.charAt(0).toUpperCase() + fx.prop.slice(1);
-				if (fx.elem[setter]) {
-				  fx.elem[setter](fx.now);
-				} else
-				  fx.elem[ fx.prop ] = fx.now;
-			}
+			var setter = 'set'+fx.prop.charAt(0).toUpperCase() + fx.prop.slice(1);
+			if (fx.elem[setter]) {
+				fx.elem[setter](fx.now);
+			} else
+				fx.elem[ fx.prop ] = fx.now;
 		}
 	}
 });

@@ -34,16 +34,17 @@ Painter.prototype.init = function() {
 };
 
 Painter.prototype.setColor = function(r,g,b,a) {
-  this.r = r;
-  this.g = g;
-  this.b = b;
-  this.a = a;
-  if (this.lastType != null) {
-    if (!a)
-      gl.glColor3f(this.r,this.g,this.b);
-    else
-      gl.glColor4f(this.r,this.g,this.b,this.a);
-  }
+	var gl = this.gl;
+	this.r = r;
+	this.g = g;
+	this.b = b;
+	this.a = a;
+	if (this.lastType != null) {
+		if (!a)
+			gl.glColor3f(this.r,this.g,this.b);
+		else
+			gl.glColor4f(this.r,this.g,this.b,this.a);
+	}
 };
 
 Painter.prototype.setTexture = function(tex, pos) {
@@ -62,13 +63,14 @@ Painter.prototype.setTexture = function(tex, pos) {
   }
   //if (this.texture)
 //    console.log("going from texture " + this.texture.texid + " to " + tex.texture);
-  this.texture = {
-    pos: pos,
-    texid: tex.texture,
-    texfn: function() {
-      gl.glBindTexture(gl.GL_TEXTURE_2D, tex.texture);
-    },
-  };
+	this.texture = {
+		pos: pos,
+		texid: tex.texture,
+		texfn: function() {
+			gl.glBindTexture(gl.GL_TEXTURE_2D, tex.texture);
+			gl.glTexEnvf(gl.GL_TEXTURE_2D,gl.GL_BLEND,gl.GL_ALPHA);
+		},
+	};
   if (this.lastType != null) {
       gl.glEnd();
       this.lastType = null;

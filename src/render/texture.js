@@ -70,6 +70,8 @@ Texture.prototype.loadFile = function(file, c, d) {
 		      this.buffer);         // the actual data
       console.log(this.texture);
     }).apply(self, [err, data]);
+	
+	gl.glTexEnvi(gl.GL_TEXTURE_ENV, gl.GL_BLEND, 1);
     c(self, d);
   });
 };

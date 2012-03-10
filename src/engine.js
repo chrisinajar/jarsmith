@@ -106,7 +106,7 @@ Engine.prototype.show = function() {
 
 	console.log("Initializing GL");
 	
-	gl.glClearColor(0.0, 1.0, 0.0, 0.0);
+	gl.glClearColor(0.0, 0.0, 0.0, 0.0);
 	gl.glShadeModel(gl.GL_SMOOTH);
 	gl.glEnable(gl.GL_TEXTURE_2D);
 	gl.glEnable (gl.GL_BLEND);

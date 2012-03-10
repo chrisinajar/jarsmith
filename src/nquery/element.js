@@ -150,6 +150,7 @@ VisibleElement.prototype.remove = function() {
 		'Height',
 		'Texture',
 		'Color',
+		'Opacity',
 		'X',
 		'Y',
  	];
@@ -189,6 +190,7 @@ VisibleElement.prototype.setAttribute = function(name, value) {
     texture: this.setTexture,
     left: this.setX,
     top: this.setY,
+    opacity: this.setOpacity,
   };
   console.log('E setting ' + name + ' to ' + value);
   if (name in specialCases) return specialCases[name].apply(this, [value]);
@@ -202,6 +204,7 @@ VisibleElement.prototype.getAttribute = function(name) {
     texture: this.texture,
     left: this.x,
     top: this.y,
+    opacity: this.opacity,
   };
   if (name in specialCases) return specialCases[name].apply(this);
   return this.attributes[name];
