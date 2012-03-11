@@ -2,8 +2,8 @@ var nQuery = require('./nquery/nquery'),
     Window = require('./render/window'),
     Painter = require('./render/painter'),
     Texture = require('./render/texture'),
-    SDL = require('../node-sdl/sdl'),
-    gl = require('../node-ogl/lib/OpenGL'),
+    SDL = require('../../node-sdl/sdl'),
+    gl = require('../../node-ogl/lib/OpenGL'),
     resources = {};
 
 
