@@ -1,6 +1,6 @@
 var util = require('util'),
-    Scene = require('./scene'),
-    keyboard = require('../keyboard');
+    Scene = require('../jarsmith/scene'),
+    keyboard = require('../jarsmith/keyboard');
 
 var BaseMenu = function(engine, events) {
   Scene.apply(this, [engine, events]);
@@ -20,21 +20,21 @@ util.inherits(BaseMenu, Scene);
 
 BaseMenu.prototype.keydown = function (evt) {
   switch (evt.sym) {
-    case keyboard.up:
-      this.moveUp();
-      break;
-    case keyboard.down:
-      this.moveDown();
-      break;
-    case keyboard.left:
-      this.moveLeft();
-      break;
-    case keyboard.right:
-      this.moveRight();
-      break;
-    case keyboard.enter:
-      this.activated();
-      break;
+	case keyboard.up:
+		this.moveUp();
+		break;
+	case keyboard.down:
+		this.moveDown();
+		break;
+	case keyboard.left:
+		this.moveLeft();
+		break;
+	case keyboard.right:
+		this.moveRight();
+		break;
+	case keyboard.enter:
+		this.activated();
+		break;
   }
 };
 

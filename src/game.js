@@ -1,6 +1,6 @@
 var util = require('util'),
-    keyboard = require('../keyboard'),
-    Scene = require('./scene');
+    keyboard = require('../jarsmith/keyboard'),
+    Scene = require('../jarsmith/scene');
 
 var $;
 
@@ -8,7 +8,7 @@ var Game = function(engine, events) {
 	Scene.apply(this, [engine, events]);
 	var self = this;
 	$ = this.$;
-	this.s = 
+	//this.s = 
 	this.leftmenu = null;
 	
 	this.guys = [];
@@ -29,20 +29,23 @@ var Game = function(engine, events) {
 		  .appendTo(s.body);
 		var put = function() {
 			var obj = $('<obj>',  {
-				width: 32,
-				height: 48,
+				width: 50,
+				height: 50,
 				left: Math.random()*1024,
 				top: Math.random()*768,
-				texture: 'guy',
+				texture: 'guy1',
 			});
 			s.guys.push(obj);
-			obj.animate({
-					width: 48,
-					height: 72
-				}, 100,"swing")
+			obj
 				.animate({
-					width: 32,
-					height: 48,
+					width: 100,
+					height: 100
+				}, 100)
+				.animate({
+					width: 50,
+					height: 50
+				}, 100)
+				.animate({
 					top: obj.attr('top') + Math.random()*400-200,
 					left: obj.attr('left') + Math.random()*400-200
 				}, 1000)
