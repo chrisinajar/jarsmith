@@ -24,13 +24,33 @@ var Element = function(engine, parent) {
 
 util.inherits(Element, events.EventEmitter);
 
-//TODO Implement this
 Element.prototype.getElementsByClassName = function(name) {
-  return [];
+	var ar = []
+	
+	for (var i = 0; i < childNodes; ++i) {
+		if (childNodes[i].attributes.class != name)
+			continue; // short circuit
+		
+		ar.push(childNodes[i]);
+		ar = ar.concat(childNodes[i].getElementsByClassName(name));
+	}
+	
+	return ar;
 };
 
 //TODO Implement this
 Element.prototype.getElementsByTagName = function(name) {
+	var ar = []
+	
+	for (var i = 0; i < childNodes; ++i) {
+		//if (childNodes[i].attributes.class != name)
+		//	continue; // short circuit
+		
+		ar.push(childNodes[i]);
+		ar = ar.concat(childNodes[i].getElementsByClassName(name));
+	}
+	
+	return ar;
   return [];
 };
 
