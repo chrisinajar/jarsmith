@@ -1,4 +1,9 @@
 It's like autism, or that point just before overdosing on cocaine.
 
+This project is an attempt to wrap jQuery around a fake DOM and correlate it back to openGL.
 
+Currently basic operations work, though there are a lot of missing features. The big things on the todo list are Selectors, Opacity, and Rotation...
 
+Here's a brief blog post on how I came to create this: http://chrisinajar.com/blog/2012/03/jarsmith-history/
+
+-Jar
