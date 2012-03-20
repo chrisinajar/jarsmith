@@ -98,7 +98,7 @@ function extend () {
 /**
  * @public
  */
-extend.version = JSON.parse( fs.readFileSync( __dirname + '/../package.json', 'utf8' )).version;
+//extend.version = JSON.parse( fs.readFileSync( __dirname + '/../package.json', 'utf8' )).version;
 
 
 
