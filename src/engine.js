@@ -32,7 +32,7 @@ var Engine = function(width, height, r) {
 	this.lastTick = 0;
 	this.shown = false;
 	this.frame = 0;
-	this.frameLimit = 40;
+	this.frameLimit = 500;
 	this.textures = {};
 }
 
@@ -140,7 +140,7 @@ Engine.prototype.render = function() {
 Engine.prototype.width = function() { return this.width; };
 Engine.prototype.height = function() { return this.height; };
 
-Engine.prototype.x = function() { return this.x; };
+Engine.prototype.x = function() { return this.x; }; // wait..
 Engine.prototype.y = function() { return this.y; };
 
 module.exports = Engine;

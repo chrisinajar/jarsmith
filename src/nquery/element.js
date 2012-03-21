@@ -173,6 +173,7 @@ VisibleElement.prototype.remove = function() {
 		'Opacity',
 		'X',
 		'Y',
+		'Rotation'
  	];
 	for (var i = 0; i < ar.length; ++i) {
 		(function(setter, type) {
